@@ -1,5 +1,6 @@
 import pytest
 
+from pages.basket_page import BasketPage
 from pages.product_page import ProductPage
 
 
@@ -35,6 +36,16 @@ def test_guest_can_add_product_to_basket(browser, link):
     page.add_product_to_basket()
     page.solve_quiz_and_get_code()
     page.product_added_to_basket()
+
+
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+    page = ProductPage(browser, link)
+    page.open()
+    page.go_to_basket()
+    page = BasketPage(browser, link)
+    page.basket_is_empty()
+    page.should_be_empty_basket_message()
 
 
 @pytest.mark.xfail(reason="bug")
