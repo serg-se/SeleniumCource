@@ -1,6 +1,10 @@
+from random import choice
+from string import ascii_lowercase
+
 import pytest
 
 from pages.basket_page import BasketPage
+from pages.login_page import LoginPage
 from pages.product_page import ProductPage
 
 
@@ -72,3 +76,29 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page.open()
     page.add_product_to_basket()
     page.success_message_is_disappeared()
+
+
+class TestUserAddToBasketFromProductPage:
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        link = "https://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
+        page = LoginPage(browser, link)
+        page.open()
+        email = "".join([choice(ascii_lowercase) for _ in range(15)])
+        page.register_new_user(f"{email}@mail.com", "YlYshfaQ6")
+        page.should_be_authorized_user()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        page = ProductPage(browser, link)
+        page.open()
+        page.should_be_add_to_basket_button()
+        page.add_product_to_basket()
+        page.product_added_to_basket()
+        page.basket_price_is_correct()
+
+    def test_user_cant_see_success_message(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        page = ProductPage(browser, link)
+        page.open()
+        page.success_message_is_not_present()
