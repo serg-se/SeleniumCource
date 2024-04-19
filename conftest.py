@@ -20,7 +20,7 @@ def options(request, user_language):
     return options
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def browser(options):
     browser = webdriver.Chrome(options=options)
     yield browser
