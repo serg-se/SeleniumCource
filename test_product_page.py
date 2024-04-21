@@ -3,9 +3,9 @@ from string import ascii_lowercase
 
 import pytest
 
-from pages.basket_page import BasketPage
-from pages.login_page import LoginPage
-from pages.product_page import ProductPage
+from .pages.basket_page import BasketPage
+from .pages.login_page import LoginPage
+from .pages.product_page import ProductPage
 
 PRODUCT_PAGE_URL = "https://selenium1py.pythonanywhere.com/en-gb/catalogue/excession_51/"
 
